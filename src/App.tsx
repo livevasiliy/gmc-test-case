@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import ProductCart from "./components/ProductCard/ProductCard";
+import fetchedProducts from "./products.json";
+import Product from "./models/Product";
+import EmptyProducts from "./components/EmptyProducts/EmptyProducts";
 
 function App() {
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    return setProducts(fetchedProducts);
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="grid container">
+      <div className="sub_category_page">
+        <div className="column_right column_right_products_container">
+          <div className="product__area">
+            {products.length ? (
+              products.map((product: Product, index: number) => {
+                return <ProductCart product={product} key={index} />;
+              })
+            ) : (
+              <EmptyProducts />
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
 
